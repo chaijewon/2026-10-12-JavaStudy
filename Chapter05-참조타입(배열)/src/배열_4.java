@@ -19,6 +19,7 @@ public class 배열_4 {
         		}
         	}
         }
+        // 'A' , 'B' , 'C'  => c='A' c='B'
         for(char c:alpha)
         {
         	System.out.print(c+" ");
