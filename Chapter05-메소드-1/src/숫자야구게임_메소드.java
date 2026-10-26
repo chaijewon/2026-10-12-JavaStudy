@@ -63,18 +63,63 @@ public class 숫자야구게임_메소드 {
         }
         return user;
     }
-    static void hint()
+    static int hint(int[] com,int[] user)
     {
-    	
+    	// 비교 
+    	int s=0,b=0;
+    	// s=> 같은 자리의 같은 수 
+    	// b=> 같은 수만 존재 
+    	for(int i=0;i<com.length;i++)
+    	{
+    		for(int j=0;j<user.length;j++)
+    		{
+    			if(com[i]==user[j])// 같은 수가 있는지 
+    			{
+    				if(i==j) // 같은 자리 
+    					s++;
+    				else     // 다른 자리
+    					b++;
+    			}
+    		}
+    	}
+    	// 힌트 
+    	System.out.printf("Input Number:%d%d%d,Result:%dS-%dB\n",
+    			user[0],user[1],user[2] , s, b);
+    	return s;
     }
-    static int exit(int s)
+    static boolean exit(int s)
     {
-    	return 1;
+    	if(s==3)
+    		return true;
+    	return false;
     }
     static void process()
     {
     	int[] com=rand();
-    	System.out.println(Arrays.toString(com));
+    	//System.out.println(Arrays.toString(com));
+    	Scanner scan=new Scanner(System.in);
+    	while(true)
+    	{
+    		int[] user=userInput();
+    		int s=hint(com, user);
+    		if(exit(s))
+    		{
+    			System.out.println("Game Over!!");
+    			System.out.print("게임을 다시 할까요?(y|Y):");
+    			char c=scan.next().charAt(0);
+    			if(c=='y'||c=='Y')
+    			{
+    				System.out.println("새게임을 시작합니다!!");
+    				process();
+    			}
+    			else
+    			{
+    				System.out.println("게임을 종료합니다!!");
+    				System.exit(0);// 프로그램 종료
+    			}
+    			  
+    		}
+    	}
     }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
