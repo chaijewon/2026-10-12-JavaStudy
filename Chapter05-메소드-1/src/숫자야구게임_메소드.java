@@ -4,8 +4,10 @@ import java.util.*;
  *     객체 <==> 객체 
  *           |
  *          메소드 : 메세지(통신시에 사용) 
+ *          
  */
 public class 숫자야구게임_메소드 {
+	
     static int[] rand()
     {
     	int[] com=new int[3];
