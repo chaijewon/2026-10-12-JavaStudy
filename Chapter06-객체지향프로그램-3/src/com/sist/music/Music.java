@@ -4,7 +4,7 @@ public class Music {
   public static MusicVO[] musics=new MusicVO[50];
   
   // 기능 
-  // 1. 목록 
+  // 1. 목록  WHERE "+column+" LIKE %fd%"
   public MusicVO[] musicListData() {
 	  return musics;
   }
@@ -14,10 +14,11 @@ public class Music {
 	  int count=0;
 	  for(MusicVO vo:musics)
 	  {
-		  if(vo.getTitle().contains(title))
-		  {
+		
+		   if(vo.getTitle().contains(title))
+		   {
 			  count++;
-		  }
+		   }
 	  }
 	  MusicVO[] music=new MusicVO[count];
 	  int i=0;
