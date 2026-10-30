@@ -87,6 +87,7 @@ import org.jsoup.select.Elements;
  */
 public class GenieMusic extends Music {
   // MovieVO[] => 초기화 static / 생성자
+  // {} / static{}
   public GenieMusic()
   {
 	  // 초기화 => MusicVO 
