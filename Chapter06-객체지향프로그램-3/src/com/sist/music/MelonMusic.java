@@ -42,7 +42,7 @@ public class MelonMusic extends Music{
 		  {
 			 Document doc=Jsoup.connect("https://www.melon.com/chart/index.htm").get();
 			 Elements title=doc.select("tr#lst50 div.rank01 a");
-			 Elements singer=doc.select("tr#lst50 div.rank02 a");
+			 Elements singer=doc.select("tr#lst50 div.rank02  span.checkEllipsis");
 			 Elements album=doc.select("tr#lst50 div.rank03 a");
 			 Elements poster=doc.select("tr#lst50 div.wrap img");
 			 //Elements rank=doc.select("table.list-wrap td.number");
