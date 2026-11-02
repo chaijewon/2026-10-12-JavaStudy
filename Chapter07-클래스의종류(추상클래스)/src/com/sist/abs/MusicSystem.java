@@ -1,4 +1,7 @@
 package com.sist.abs;
+
+import lombok.Getter;
+
 /*
  *    1. 데이터 수집 : 추상메소드 
  *    -------------
@@ -15,9 +18,14 @@ package com.sist.abs;
  *      
  *    댓글형 게시판 
  *      글쓰기 / 목록 / 상세보기 , 댓글 / 검색 / 삭제 
+ *      
+ *    라이브러리 : 이미 구현한 클래스를 제공 
+ *    List
+ *     | ArrayList
  */
 public abstract class MusicSystem {
    // 상속받은 클래스까지 접근이 가능 , private => getter/setter 
+   @Getter
    private static Music[] musics=new Music[50];
    // 구현 
    public Music[] musicList() {
@@ -52,10 +60,10 @@ public abstract class MusicSystem {
 	   return music;
    }
    
-   public static Music[] getMusics() {
-	   //System.out.println("MusicSystem:musics=>"+musics);
-	   return musics;
-   }
+	/*
+	 * public static Music[] getMusics() {
+	 * //System.out.println("MusicSystem:musics=>"+musics); return musics; }
+	 */
    // 구현이 안된 메소드
    public abstract void dataCollection(); 
    
