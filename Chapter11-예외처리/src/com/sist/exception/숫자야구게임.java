@@ -115,11 +115,95 @@ public class 숫자야구게임 extends JFrame implements ActionListener{
 		}
 		else if(e.getSource()==b1)
 		{
+			getRand();
 			tf.setEnabled(true);
 			b1.setEnabled(false);
 			tf.requestFocus();
 			JOptionPane.showMessageDialog(this, "게임을 시작합니다");
 		}
+		else if(e.getSource()==tf || e.getSource()==b2) // 엔터 
+		{
+			// 입력값 읽기
+			String temp=tf.getText();
+			if(temp.trim().length()!=3)
+			{
+				sendMesaage("세자리 정수를 입력해야 됩니다");
+				return; // 메소드 종료 
+			}
+			
+			int input=0;
+			// 지역변수 => 반드시 초기화 해야된다 
+			try
+			{
+				input=Integer.parseInt(temp);
+				// 문자열을 변환할때 사용 
+			}catch(Exception ex) 
+			{
+				sendMesaage("잘못된 입력입니다!!\n정수만 입력해야 됩니다");
+				return; // 예외 발생 => 복구 (처음으로 돌아 간다)
+			}
+			// 123
+			user[0]=input/100;
+			user[1]=(input%100)/10;
+			user[2]=input%10;
+			
+			if(user[0]==user[1]|| user[1]==user[2] || user[0]==user[2])
+			{
+				sendMesaage("중복된 수는 사용할 수 없습니다!!");
+				return;
+			}
+			// 012 
+			if(user[0]==0 || user[1]==0 || user[2]==0)
+			{
+				sendMesaage("0은 사용할 수 없습니다!!");
+				return;
+			}
+			
+			// 비교 
+			s=0;
+			b=0;
+			
+			for(int i=0;i<3;i++) // com
+			{
+				for(int j=0;j<3;j++) // user
+				{
+					if(com[i]==user[j]) // 배열안에 같은 수가 있는지
+					{
+						if(i==j) // 같은 인덱스 
+							s++;
+						else     // 다른 인덱스 
+							b++;
+					}
+				}
+			}
+			
+			// 힌트 
+			String msg=String.format("Input Number:%d,Result:%dS-%dB\n",
+					                input,s,b);
+			ta.append(msg);
+			
+			if(s==3)
+			{
+				int a=JOptionPane.showConfirmDialog(this, 
+						"종료할까요?","게임 종료",
+						JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+				if(a==JOptionPane.YES_OPTION)
+				{
+					dispose();
+					System.exit(0);
+				}
+				else
+				{
+					ta.setText("");
+					tf.setText("");
+					getRand();
+					JOptionPane.showMessageDialog(this, "새게임을 시작합니다");
+				}
+			}
+		}
+		
+		tf.setText("");
+		tf.requestFocus();
 	}
 	// 메소드 
 	/*
@@ -167,6 +251,35 @@ public class 숫자야구게임 extends JFrame implements ActionListener{
 	 *   => 객체지향의 핵심 : 재사용 
 	 *      ------------------- 메소드 
 	 */
-	
+	// 인스턴스 / static => 클래스내의 모든 메소드에서 사용이 가능
+	// 반복적으로 수행 
+	/*
+	 *   메소드 
+	 *    1) 재사용 = 한가지 일만 수행 
+	 *    2) 반복적으로 수행  
+	 *    
+	 */
+	public void sendMesaage(String msg)
+	{
+		JOptionPane.showMessageDialog(this, msg);
+		tf.setText("");
+		tf.requestFocus();
+	}
+	public void getRand()
+	{
+		for(int i=0;i<com.length;i++)
+		{
+			com[i]=(int)(Math.random()*9)+1;
+			// 중복이 없이 발생 
+			for(int j=0;j<i;j++)
+			{
+				if(com[i]==com[j])
+				{
+					i--; // 현재 발생 난수 다시 저장 
+					break;
+				}
+			}
+		}
+	}
 
 }
