@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="C:/Users/vcand/Downloads/JTattoo-1.6.13.jar"/>
 	<classpathentry kind="lib" path="C:/Users/vcand/Downloads/ojdbc11-21.23.0.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/vcand/Downloads/lombok-1.18.48.jar"/>
+	<classpathentry kind="lib" path="C:/Users/vcand/Downloads/jsoup-1.23.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
