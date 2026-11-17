@@ -30,7 +30,35 @@ import java.util.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-
+/*
+ *       메인 쓰레드 => main() => dataCollection()
+ *                      |
+ *                  쓰레드 4개 생성 
+ *                for(int i = 0; i < 4; i++)
+                  {
+                      final int page = i + 1;
+                      threads[i] = new Thread(new Runnable()
+                  }  
+          ---------------------------------------------
+           Thread-0    Thread-1    Thread-2   Thread-3
+             1페이지      2페이지       3페이지     4페이지
+          ---------------------------------------------
+                             |
+                          순차적으로 저장 
+                        synchronized(list)
+                        {
+                           list.addAll(temp);
+                        }
+                           |
+                          join 
+                          4개 쓰레즈가 동시에 종료될때까지 대기
+                           |
+                        번호별로 정렬 
+                        list.sort(Comparator.comparingInt(Music::getMno));
+                           |
+                        화면에 출력 
+                          
+ */
 public class 지니뮤직_크롤링 {
 
 public void dataCollection()
@@ -123,7 +151,7 @@ public void dataCollection()
 
     System.out.println("전체 수집 완료 : " + list.size() + "곡");
 
-    // 결과 확인
+    // 결과 확인 => 오라클로 전송 
     for(Music m : list)
     {
         System.out.println(
@@ -137,7 +165,10 @@ public void dataCollection()
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
         지니뮤직_크롤링 m=new 지니뮤직_크롤링();
+        long start=System.currentTimeMillis();
         m.dataCollection();
+        long end=System.currentTimeMillis();
+        System.out.println("총 걸린시간:"+(end-start)+"MS");
 	}
 
 }
