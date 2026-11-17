@@ -59,6 +59,22 @@ public class 지니뮤직_ThreadPool {
     	 *                List 저장 => 정렬 
     	 *                  |
     	 *                shutdown 
+    	 *                
+    	 *     Thread => Runnable => ExecutorService 
+    	 *                                |
+    	 *                             Callable 
+    	 *                                |
+    	 *                             Future 
+    	 *                                |
+    	 *                             ThreadPool
+    	 *      => synchronized : 동기화 
+    	 *      => 메소드 앞에 존재 : 제어어 
+    	 *         final / static / abstract /  synchronized
+    	 *                                      | 동기화 
+    	 *                          | 구현이 안된 메소드 
+    	 *                 | 객체가 공통으로 사용된 메소드
+    	 *         | => 오버라이딩이 불가능 
+    	 *         
     	 *    
     	 */
     	//3. 페이지별 작업 등록 
