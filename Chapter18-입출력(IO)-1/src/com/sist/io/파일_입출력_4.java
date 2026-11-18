@@ -78,7 +78,7 @@ package com.sist.io;
  *           1) 메모장 출력 / 게시판 출력 
  *           2) read() => 한글자만 읽는다
  *           3) close() 
- *       
+ *        
  */
 import java.io.*;
 import java.util.*;
