@@ -68,7 +68,7 @@ implements ActionListener,Runnable
     	add(p);
     	
     	setSize(790, 550);
-    	setVisible(true);
+    	//setVisible(true);
     	
     	// 이벤트 => 서버로 값을 전송하는 위치 
     	login.b1.addActionListener(this);// 로그인 
@@ -100,6 +100,8 @@ implements ActionListener,Runnable
 	    	in=new BufferedReader(
 	    			new InputStreamReader(s.getInputStream()));
 	    	// 서버에서 결과값 받기 
+	    	out.write((Function.LOGIN+"|"+id+"|"
+	    			+name+"|"+sex+"\n").getBytes());
 	    }catch(Exception ex){}
 	    // 서버로부터 결과값을 읽어 온다
 	    new Thread(this).start();
@@ -110,7 +112,30 @@ implements ActionListener,Runnable
 		// out.write()
 		if(e.getSource()==login.b1)// 로그인 버튼 
 		{
-			
+			// 값을 받는다 
+			String id=login.tf1.getText();
+			if(id.trim().length()<1)
+			{
+				login.tf1.requestFocus();
+				return;
+			}
+			String name=login.tf2.getText();
+			if(name.trim().length()<1)
+			{
+				login.tf2.requestFocus();
+				return;
+			}
+			String sex="";
+			if(login.rb1.isSelected())
+			{
+				sex="남자";
+			}
+			else
+			{
+				sex="여자";
+			}
+			// 연결 
+			connect(id, name, sex);
 		}
 		else if(e.getSource()==login.b2) // 종료 
 		{
@@ -126,6 +151,34 @@ implements ActionListener,Runnable
 	@Override
 	public void run() {
 		// in.readLine()
+		try
+		{
+			while(true)
+			{
+				String msg=in.readLine();
+				StringTokenizer st=new StringTokenizer(msg,"|");
+				int protocol=Integer.parseInt(st.nextToken());
+				switch(protocol)
+				{
+				  case Function.LOGIN->{
+					  String[] data= {
+							  st.nextToken(),
+							  st.nextToken(),
+							  st.nextToken()
+					  };
+					  model.addRow(data);
+				  }
+				  case Function.MYLOG->{
+					  login.setVisible(false);
+					  setVisible(true);
+					  setTitle(st.nextToken());
+				  }
+				  case Function.CHAT->{
+					  ta.append(st.nextToken()+"\n");
+				  }
+				}
+			}
+		}catch(Exception ex) {}
 	}
 
 }
