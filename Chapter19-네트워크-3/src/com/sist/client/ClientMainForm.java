@@ -1,0 +1,131 @@
+package com.sist.client;
+import java.awt.*;
+
+import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.StringTokenizer;
+
+import javax.swing.*;
+import javax.swing.table.*;
+
+import com.sist.commons.Function;
+public class ClientMainForm extends JFrame
+implements ActionListener,Runnable
+{
+    JTextArea ta;
+    JTextField tf;
+    JTable table;
+    DefaultTableModel model;
+    JButton b1,b2,b3;
+    LoginForm login=new LoginForm();
+    Socket s; 
+    OutputStream out; 
+    BufferedReader in; 
+    public ClientMainForm()
+    {
+    	ta=new JTextArea();
+    	JScrollPane js1=new JScrollPane(ta);
+    	ta.setEditable(false);
+    	
+    	tf=new JTextField();
+    	b1=new JButton("쪽지보내기");
+    	b2=new JButton("정보 보기");
+    	b3=new JButton("나가기");
+    	
+    	String[] col={"아이디","이름","성별"};
+    	String[][] row=new String[0][3];
+    	model=new DefaultTableModel(row,col)
+    	{
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+    	   	
+    	}; 
+    	table=new JTable(model);
+    	JScrollPane js2=new JScrollPane(table);
+    	
+    	////// 배치 
+    	setLayout(null);
+    	js1.setBounds(10, 15, 500, 450);
+    	tf.setBounds(10, 470, 500, 30);
+    	
+    	js2.setBounds(515, 15, 250, 300);
+    	JPanel p=new JPanel();
+    	p.setLayout(new GridLayout(3, 1,5,5));
+    	p.add(b1);p.add(b2);p.add(b3);
+    	p.setBounds(515, 320, 250, 130);
+    	
+    	// 윈도우 추가
+    	add(js1);
+    	add(tf);
+    	add(js2);
+    	add(p);
+    	
+    	setSize(790, 550);
+    	setVisible(true);
+    	
+    	// 이벤트 => 서버로 값을 전송하는 위치 
+    	login.b1.addActionListener(this);// 로그인 
+    	login.b2.addActionListener(this);// 취소
+    	
+    	tf.addActionListener(this); // 채팅
+    	b3.addActionListener(this); // 나가기 
+    }
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		try
+		{
+			UIManager.setLookAndFeel("com.jtattoo.plaf.mcwin.McWinLookAndFeel");
+		}catch(Exception ex) {}
+        new ClientMainForm();
+	}
+	// 서버와 연결 => 로그인 처리 
+	public void connect(String id,String name,String sex)
+	{
+		/*
+		 *   클라이언트   /   서버 
+		 *   | 서버의 정보    | 클라이언트 정보 
+		 */
+	    try
+	    {
+	    	s=new Socket("localhost",3355);
+	    	// 송수신 
+	    	out=s.getOutputStream(); // 서버 데이터 전송 
+	    	in=new BufferedReader(
+	    			new InputStreamReader(s.getInputStream()));
+	    	// 서버에서 결과값 받기 
+	    }catch(Exception ex){}
+	    // 서버로부터 결과값을 읽어 온다
+	    new Thread(this).start();
+	}
+	// 접속자 요청 => 로그인 / 나가기 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// out.write()
+		if(e.getSource()==login.b1)// 로그인 버튼 
+		{
+			
+		}
+		else if(e.getSource()==login.b2) // 종료 
+		{
+			dispose();
+			System.exit(0);
+		}
+		else if(e.getSource()==tf) // 채팅 
+		{
+			
+		}
+	}
+	// 서버로부터 요청 처리한 결과값을 받는 부분
+	@Override
+	public void run() {
+		// in.readLine()
+	}
+
+}
