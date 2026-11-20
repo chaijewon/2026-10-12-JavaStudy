@@ -121,10 +121,24 @@ public class Server implements Runnable{
 						  
 					  }
 					  case Function.CHAT->{
-						  
+						  messageAll(Function.CHAT+"|["+name+"]"+st.nextToken());
 					  }
 					  case Function.EXIT->{
+						  messageAll(Function.EXIT+"|"+id);
+						  messageAll(Function.CHAT+"|[알림 ☞] "+name+"님 퇴장하셨습니다");
 						  
+						  for(Client c:waitVc)
+						  {
+							  if(c.id.equals(id))
+							  {
+								  messageTo(Function.MYEXIT+"|");
+								  waitVc.remove(c);
+								  
+								  in.close();
+								  out.close();
+								  break;
+							  }
+						  }
 					  }
 					}
 					

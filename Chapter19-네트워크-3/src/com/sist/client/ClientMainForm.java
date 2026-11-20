@@ -95,6 +95,7 @@ implements ActionListener,Runnable
 	    try
 	    {
 	    	s=new Socket("localhost",3355);
+	    	// s=new Socket("192.168.0.31",11111);
 	    	// 송수신 
 	    	out=s.getOutputStream(); // 서버 데이터 전송 
 	    	in=new BufferedReader(
@@ -144,7 +145,27 @@ implements ActionListener,Runnable
 		}
 		else if(e.getSource()==tf) // 채팅 
 		{
+			String msg=tf.getText();
+			if(msg.trim().length()<1)
+			{
+				tf.requestFocus();
+				return;
+			}
 			
+			try
+			{
+				out.write((Function.CHAT+"|"+msg+"\n").getBytes());
+			}catch(Exception ex) {}
+			
+			tf.setText("");
+		}
+		// 나가기 
+		else if(e.getSource()==b3)
+		{
+			try
+			{
+				out.write((Function.EXIT+"|\n").getBytes());
+			}catch(Exception ex) {}
 		}
 	}
 	// 서버로부터 요청 처리한 결과값을 받는 부분
@@ -175,6 +196,22 @@ implements ActionListener,Runnable
 				  }
 				  case Function.CHAT->{
 					  ta.append(st.nextToken()+"\n");
+				  }
+				  case Function.EXIT->{
+					  String id=st.nextToken();
+					  for(int i=0;i<model.getRowCount();i++)
+					  {
+						  String yid=model.getValueAt(i, 0).toString();
+						  if(id.equals(yid))
+						  {
+							  model.removeRow(i);
+							  break;
+						  }
+					  }
+				  }
+				  case Function.MYEXIT->{
+					  dispose();
+					  System.exit(0);
 				  }
 				}
 			}
