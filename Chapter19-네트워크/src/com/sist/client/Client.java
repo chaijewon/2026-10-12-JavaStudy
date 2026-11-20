@@ -10,7 +10,7 @@ public class Client {
         try
         {
         	// 전화기 => 서버에 연결 
-        	Socket s=new Socket("192.168.0.21",3355);
+        	Socket s=new Socket("192.168.0.31",11111);
         	System.out.println("서버 접속 완료");
         	OutputStream out=s.getOutputStream();
         	// Socket : 서버
